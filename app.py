@@ -3,6 +3,8 @@ from api_key import api_key_openai
 
 import streamlit as st
 from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain 
 
 # declare an environment variable mapped to the according key
 os.environ['OPENAI_API_KEY'] = api_key_openai
@@ -11,13 +13,20 @@ os.environ['OPENAI_API_KEY'] = api_key_openai
 
 st.title('LLM Showcase ☄️') 
 # input field for prompts
-prompt = st.text_input('Enter prompt')
+prompt = st.text_input('State-of-the-art on the topic of:')
+
+# Prompt template
+title_template = PromptTemplate(
+    input_variables= ['topic'],
+    template = 'What is the state-of-the-art on the topic of {topic}. Write it as a list'
+)
 
 # LLMs
 creativity_indicator = 0.8 # indicates how creative the LLMs responses are 
 llm = OpenAI(temperature = creativity_indicator)
+title_chain = LLMChain(llm=llm, prompt=title_template, verbose=True)
 
-# write response if given prompt 
+# write response if given prompt using the defined prompt format
 if prompt:
-    response = llm(prompt)
+    response = title_chain.run(topic=prompt)
     st.write(response)
