@@ -57,7 +57,7 @@ if prompt:
     # response = seq_chain({'topic': prompt})
     research = research_chain.run(prompt)
     wiki_research = wiki.run(prompt)
-    post = posts_chain.run(research=research, wikipedia_research=wiki_research)
+    post = posts_chain.run(research=research, wikipedia_research=wiki_research[:500])
     hashtags = hashtags_chain.run(post=post)
 
     # st.write(research)
