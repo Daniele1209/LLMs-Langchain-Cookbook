@@ -55,14 +55,12 @@ response_handler = ResponseHandler()
 # write response if given prompt using the defined prompt format
 if prompt:
     # response = seq_chain({'topic': prompt})
-    # response_handler.set_response(response['research'])
-    # response_handler.post_process_list_response()
     research = research_chain.run(prompt)
     wiki_research = wiki.run(prompt)
     post = posts_chain.run(research=research, wikipedia_research=wiki_research)
     hashtags = hashtags_chain.run(post=post)
 
-    st.write(research)
+    # st.write(research)
     st.write(post)
     st.write(hashtags)
 
