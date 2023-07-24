@@ -35,7 +35,6 @@ hashtags_template = PromptTemplate(
 )
 
 # Memory
-# research_memory = ConversationBufferMemory(input_key='topic', memory_key='chat_memory')
 posts_memory = ConversationBufferMemory(input_key='research', memory_key='chat_memory')
 hashtag_memory = ConversationBufferMemory(input_key='post', memory_key='chat_memory')
 
@@ -54,13 +53,11 @@ response_handler = ResponseHandler()
 
 # write response if given prompt using the defined prompt format
 if prompt:
-    # response = seq_chain({'topic': prompt})
     research = research_chain.run(prompt)
     wiki_research = wiki.run(prompt)
     post = posts_chain.run(research=research, wikipedia_research=wiki_research[:500])
     hashtags = hashtags_chain.run(post=post)
 
-    # st.write(research)
     st.write(post)
     st.write(hashtags)
 
